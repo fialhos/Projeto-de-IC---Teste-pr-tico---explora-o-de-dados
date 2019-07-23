@@ -1,0 +1,24 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1563840535713.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2852637448",
+    "id" : "DB0CD3BC",
+    "lastKnownWriteTime" : 1563909158,
+    "last_content_update" : 1563909158117,
+    "path" : "C:/Users/Vini/Desktop/Teste Pratico/CadernoTeste.Rmd",
+    "project_path" : "CadernoTeste.Rmd",
+    "properties" : {
+        "chunk_output_type" : "inline",
+        "cursorPosition" : "103,0",
+        "scrollLine" : "101",
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 4,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

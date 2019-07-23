@@ -1,0 +1,25 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1563829284023.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3045281449",
+    "id" : "65EAEA74",
+    "lastKnownWriteTime" : 1563870368,
+    "last_content_update" : 1563870368895,
+    "path" : "C:/Users/Vini/Desktop/Teste Pratico/RScript.R",
+    "project_path" : "RScript.R",
+    "properties" : {
+        "cursorPosition" : "13,5",
+        "docOutlineVisible" : "0",
+        "notebook_format" : "html_document",
+        "scrollLine" : "8",
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

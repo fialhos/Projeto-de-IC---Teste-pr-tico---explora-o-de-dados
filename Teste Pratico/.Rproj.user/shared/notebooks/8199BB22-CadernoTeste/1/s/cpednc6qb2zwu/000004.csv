@@ -1,0 +1,9 @@
+"0","rm(list = ls())"
+"0","set.seed(123)"
+"0","library(""caret"")"
+"0","library(""som"")"
+"0","library(""corrplot"")"
+"0","baseDados <- read.csv(""C:/Users/Vini/Desktop/Bit COin/data.csv"",header = FALSE,na.string=""NA"")"
+"2","cannot open file 'C:/Users/Vini/Desktop/Bit COin/data.csv': No such file or directory"
+"2","Error in file(file, ""rt"") : cannot open the connection
+"

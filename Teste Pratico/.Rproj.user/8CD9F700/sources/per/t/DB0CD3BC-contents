@@ -1,0 +1,133 @@
+---
+title: "Analise exploratoria"
+output:
+  html_document:
+    df_print: paged
+  pdf_document: default
+---
+### Aluno
+Vinicius Souza Fialho Garcia, 15.1.8174
+
+
+#Introdução
+O objetivo deste pequeno teste prático é fazer uma análise inicial de uma base de dados com um histórico de preço de uma ação na bolsa de valores e de uma moeda.
+
+
+##Dados iniciais
+
+Nessa eatapa a base de dados foi carregada e as bibliotecas necessárias foram importadas, alem disso a função "summary" exibe uma exploração inicial dos dados trazendo algunas informaçoes como valor minimo, máximo, media e mediana, entre outros, sendo v2 Stock,e V3 Currency.  
+
+```{r}
+rm(list = ls())
+set.seed(123)
+library("caret")
+library("som")
+library("corrplot")
+
+baseDados <- read.csv("C:/Users/Vini/Desktop/Teste Pratico/data.csv",header = FALSE,na.string="NA")
+
+summary(baseDados)
+
+
+
+```
+
+##Relação temporal
+Com a intenção de explorar a relação temporal entre os dados, foi feita uma normalização dos dados para posibilitar a geração de um gráfico que comparasse a evolução temporal dos memos.Podemos perceber que existe uma relação linear entre os dados, apesar de existirem descrepancias em alguns instantes de tempo. 
+```{r}
+
+
+baseDados2 <- som::normalize(baseDados,byrow = FALSE)
+
+plot(baseDados[,1],baseDados2[,2],type = "l",col="red",ylab="Stock(Reb),Currency(Blue)",xlab="Tempo")
+points(baseDados[,1],baseDados2[,3],type = "l",col="blue")
+
+```
+
+##Teste de Correlaçao
+Nesta etapa, é exibido um teste de correlação entre os dados com a intenção de inticar o quão forte é a correlção de cada coluna, entendo assim como elas se afetam, sendo assim foi exibido um gráfico de coorrelação, e uma tabela entre cada coluna, alem disso foi realizado um Teste de Hipóteses (supondo que as suposições do teste sejam satisfeitas).Dado os resultados podemos observar que o tempo tem uma correlação linear muitor forte tanto com o stock como com o currency,e as 2 ultimas tem um correlção menor , porem considerável entre si, ou seja existe um padrão linear nos dados que pode ser explorado.E ainda o teste de hipotese nos mostra que Como o Valor P (p-value < 2.2e-16) é bem pequeno, conclui-se que o valor do Coeficiente de Correlação Linear de Pearson tem significância Estatística.
+
+```{r}
+
+correlationMatrix <- cor(baseDados)
+corrplot(correlationMatrix, method="circle", type="lower", order="hclust")
+
+cor(baseDados)
+cor.test(baseDados[,2],baseDados[,3])
+cor.test(baseDados[,1],baseDados[,2])
+cor.test(baseDados[,1],baseDados[,3])
+
+```
+
+##BoxPlot
+Com os dados ainda normalizados, é exibido a seguir o gráfico boxplot para representar a variação dos dados observados, podemos observar que grande parte dos dados tem uma concentração uniforte apesar das variações ja citadas, evidenciando ainda a aproximação existente entre os dados. 
+```{r}
+boxplot(baseDados2[,2],baseDados2[,3],main="Boxplot",names=c("Stock","Currency"))
+```
+
+##Media, Desvio Padrao, e Variancia
+Agora foram cauculadas  a media, desvio padrao, e a variancia do Stock e currency, com o intuito de mostrar mais claramente a dispersão que existe entre os dados. Fica claro que existe um pequeno afastamento dos dados ao longo do tempo, porem isso acontece de maneira branda,entretanto deve-se estudar mais a fundo as medidas de dispersão dos dados para saber por que isso acontece.
+```{r}
+mean(baseDados[,2])
+mean(baseDados[,3])
+
+sd(baseDados[,2])
+sd(baseDados[,3])
+
+var(baseDados[,2])
+var(baseDados[,3])
+```
+
+##Diagrma de disperção
+Como existe uma quantidade massiva de dados, para melhor representa - los grágicamente foi feita uma media dos mesmos a cada 100 instante de tempo.Logo em seguida é exibido o diagrama de dispersão e é usada a função "lm" para realizar a análise de variância.Fica evidente aqui, mais uma vez, que existe uma dispersão dos dados a partir de um certo momento,que deve ser estudada e entendida.
+```{r}
+
+
+mediastock= matrix(nrow = 100, ncol = 2)
+mediacurrency = matrix(nrow = 100, ncol = 2)
+
+b1 <- c()
+b2 <- c()
+n=0
+for(i in 1:100){
+  for(j in 1:100){
+  
+    b1[j]<-baseDados[n+j,2]
+    b2[j]<-baseDados[n+j,3]
+    }
+  mediastock[i,1]<-mean(b1)
+  mediastock[i,2]<-i
+  mediacurrency[i,1]<-mean(b2)
+  mediacurrency[i,2]<-i
+  n=n+100
+}
+
+
+
+plot(mediastock[,1],mediacurrency[,1])
+abline(lm(mediacurrency[,1] ~ mediastock[,1]))
+
+```
+
+##Ajuste do modelo linear
+Existem muitos métodos disponíveis para inspecionar o resultado proposto pela função lm, entre eles o summary nos traz diversas informações interessante , pode-se obter, por exemplo, os erros-padrão (Std. Error) das estimativas dos coeficientes de regressão,Além disso obtém-se o valor do Coeficiente de Determinação (Multiple R-Squared), R2 = 0,786.O valor dos coeficientes de  β0 e β1 sao estimados via Método de Mínimos Quadrados, exibidos atravez da variavel ajuste.
+
+```{r}
+ajuste=lm(mediastock[,1] ~ mediacurrency[,1])
+
+print(ajuste)
+
+summary(ajuste)
+
+```
+
+
+##Conclusão
+
+
+Apesar de básica a analise exploratoria realizada, podemos concluir que existe sim um padrao de linearidade a ser explorado nos dados, entretanto é necessário estudar mais a fundo o problema e suas caracteristicas, para entendermos as dispersões existentes,se possivel aplicar metodos para minimiza-las e ou executar um metodo de regressão, por exemplo, para obter resultados satisfatorios.
+
+
+```{r}
+
+```
